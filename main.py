@@ -13,3 +13,5 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 # Load the model with 'accelerate' for efficient loading
 model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=torch.float16, device_map="auto")
 model.to(device)
+
+a = 10
