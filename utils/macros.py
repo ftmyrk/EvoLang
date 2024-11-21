@@ -1,45 +1,46 @@
-import pandas as pd
-from sentence_transformers import SentenceTransformer
-from gensim.models import Word2Vec
 import os
+import pandas as pd
+from gensim.models import Word2Vec
+from sentence_transformers import SentenceTransformer
 
 # Paths
 BASE_DIR = '/home/otamy001/EvoLang'
-DATA_DIR = os.path.join(BASE_DIR, 'generated_data')
+DATA_DIR = os.path.join(BASE_DIR, 'Dataset')
+GENERATED_DATA_DIR = os.path.join(BASE_DIR, 'generated_data')
 OUTPUT_DIR = os.path.join(BASE_DIR, 'outputs')
 MODEL_DIR = os.path.join(BASE_DIR, 'word2vec_models')
 
-# Ensure output directories exist
+# Ensure directories exist
+os.makedirs(GENERATED_DATA_DIR, exist_ok=True)
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 os.makedirs(MODEL_DIR, exist_ok=True)
 
-# Load data
+# Load preprocessed datasets
 def load_data():
-    data_2013 = pd.read_csv(os.path.join(DATA_DIR, 'generated_responses_2013.csv'))
-    data_2023 = pd.read_csv(os.path.join(DATA_DIR, 'generated_responses_2023.csv'))
-    return data_2013, data_2023
+    old_data = pd.read_csv(os.path.join(GENERATED_DATA_DIR, 'generated_responses_2013.csv'))
+    new_data = pd.read_csv(os.path.join(GENERATED_DATA_DIR, 'generated_responses_2023.csv'))
+    return old_data, new_data
 
-# Tokenize data
+# Tokenize datasets
 def tokenize_data(data):
-    return [word for text in data['Original_Text'] for word in text.split()]
+    return [text.split() for text in data['Original_Text'].tolist()]
 
-# Sentence-BERT Model
+# Preload data and tokens
+old_data, new_data = load_data()
+tokens_2013 = tokenize_data(old_data)
+tokens_2023 = tokenize_data(new_data)
+
+# Sentence-BERT model
 sentence_bert_model = SentenceTransformer('all-MiniLM-L6-v2')
 
-# Word2Vec Models
-def load_or_train_word2vec(data_tokens, year):
+# Word2Vec models
+def load_or_train_word2vec(tokens, year):
     model_path = os.path.join(MODEL_DIR, f'word2vec_model_{year}.model')
     if os.path.exists(model_path):
-        model = Word2Vec.load(model_path)
-    else:
-        model = Word2Vec(sentences=data_tokens, vector_size=100, window=5, min_count=2, workers=4)
-        model.save(model_path)
+        return Word2Vec.load(model_path)
+    model = Word2Vec(sentences=tokens, vector_size=100, window=5, min_count=2, workers=4)
+    model.save(model_path)
     return model
-
-# Load and preprocess everything
-data_2013, data_2023 = load_data()
-tokens_2013 = tokenize_data(data_2013)
-tokens_2023 = tokenize_data(data_2023)
 
 word2vec_model_2013 = load_or_train_word2vec(tokens_2013, 2013)
 word2vec_model_2023 = load_or_train_word2vec(tokens_2023, 2023)

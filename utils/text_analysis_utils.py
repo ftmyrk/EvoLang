@@ -9,6 +9,7 @@ import pandas as pd
 import nltk
 from nltk.corpus import stopwords
 import torch
+import os
 
 # Download stopwords if not already available
 nltk.download('stopwords')
@@ -117,3 +118,39 @@ def heat_map(maps, title, output_file):
     plt.title(title)
     plt.savefig(output_file) 
     plt.close()  
+    
+    
+def plot_bar_chart(data, title, xlabel, ylabel, output_file):
+    # Convert keys and values to lists
+    keys = list(data.keys())
+    values = list(data.values())
+    
+    plt.figure(figsize=(10, 6))
+    plt.barh(keys, values, color='skyblue')
+    plt.gca().invert_yaxis()
+    plt.title(title)
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+    plt.savefig(output_file)
+    plt.close()
+    print(f"Chart saved to {output_file}")
+
+def plot_keyword_frequency(keywords, tokens_2013, tokens_2023, output_file):
+    freq_2013 = Counter(tokens_2013)
+    freq_2023 = Counter(tokens_2023)
+
+    frequencies = {
+        'Keyword': keywords,
+        '2013': [freq_2013[keyword] for keyword in keywords],
+        '2023': [freq_2023[keyword] for keyword in keywords]
+    }
+
+    plt.bar(frequencies['Keyword'], frequencies['2013'], alpha=0.6, label='2013')
+    plt.bar(frequencies['Keyword'], frequencies['2023'], alpha=0.6, label='2023')
+    plt.title('Keyword Frequency Comparison (2013 vs 2023)')
+    plt.xlabel('Keyword')
+    plt.ylabel('Frequency')
+    plt.legend()
+    plt.savefig(output_file)
+    plt.close()
+    print(f"Keyword frequency comparison saved to {output_file}")

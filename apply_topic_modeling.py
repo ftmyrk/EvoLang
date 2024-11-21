@@ -19,8 +19,8 @@ def apply_topic_modeling(data, keyword, num_topics=3, num_words=5):
     else:
         print(f"No articles found for '{keyword}'.")
 
-old_data = pd.read_csv('/home/otamy001/EvoLang/Dataset/generated_responses_2013.csv')
-new_data = pd.read_csv('/home/otamy001/EvoLang/Dataset/generated_responses_2023.csv')
+old_data = pd.read_csv('/home/otamy001/EvoLang/generated_data/generated_responses_2013.csv')
+new_data = pd.read_csv('/home/otamy001/EvoLang/generated_data/generated_responses_2023.csv')
 
 # List of keywords to analyze
 keywords = ['economy', 'policy', 'shares', 'technology', 'market']
