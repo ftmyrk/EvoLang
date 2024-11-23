@@ -38,9 +38,6 @@ This project explores how language evolves over time by analyzing datasets of ne
 - Trained Word2Vec models to explore associations for specific keywords.
 - Created bar charts highlighting the most similar words for each keyword in 2013 and 2023.
 
-### 9. **Centralized Macros for Modularity**
-- Consolidated common tasks (e.g., loading data, models) into reusable macros.
-- Simplified scripts and improved maintainability.
 
 ---
 
