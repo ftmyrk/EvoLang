@@ -61,3 +61,41 @@ EvoLang/
 ├── visualize_word_associations.py # Word association visualizations
 ├── apply_topic_modeling.py      # Topic modeling with LDA
 ├── README.md                    # Project documentation
+
+
+## **Execution Order and Purposes**
+
+### **1. Generate Data**
+
+- Script: generate_data.py
+- Purpose: Preprocesses the datasets and uses LLaMA to generate text data for analysis.
+- Command:
+```python generate_data.py```
+- Output:
+    - generated_data/generated_responses_2013.csv
+    - generated_data/generated_responses_2023.csv
+
+### **2. Analyze Data**
+
+- Script: analyze_data.py
+- Purpose: Performs word frequency analysis, generates word clouds, and conducts sentiment analysis.
+- Command:
+```python analyze_data.py```
+- Output:
+    - outputs/word_freq_2013.png
+    - outputs/word_freq_2023.png
+    - outputs/wordcloud_2013.png
+    - outputs/wordcloud_2023.png
+    - outputs/visualize_sentiment_2013.png
+    - outputs/visualize_sentiment_2023.png
+
+### **3. Measure Semantic Shifts**
+
+- Script: semantic_analysis.py
+- Purpose: Measures cosine similarity between word embeddings and compares keyword evolution using Word2Vec.
+- Command:
+```python semantic_analysis.py```
+- Output:
+    - outputs/cosine_similarities.csv
+    - outputs/cosine_similarity_heatmap.png
+    - outputs/keyword_similarities.txt
