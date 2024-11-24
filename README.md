@@ -81,7 +81,7 @@ EvoLang/
 - Script: analyze_data.py
 - Purpose: Performs word frequency analysis, generates word clouds, and conducts sentiment analysis.
 - Command:
-```python analyze_data.py```
+```baspython analyze_data.py```
 - Output:
     - outputs/word_freq_2013.png
     - outputs/word_freq_2023.png
@@ -95,10 +95,40 @@ EvoLang/
 - Script: semantic_analysis.py
 - Purpose: Measures cosine similarity between word embeddings and compares keyword evolution using Word2Vec.
 - Command:
-```python semantic_analysis.py```
+```bash python semantic_analysis.py```
 - Output:
     - outputs/cosine_similarities.csv
     - outputs/cosine_similarity_heatmap.png
     - outputs/keyword_similarities.txt
+
+### **4. Apply Topic Modeling**
+   - Script: apply_topic_modeling.py
+   - Purpose: Extracts topics related to specific keywords using Latent Dirichlet Allocation (LDA).
+   - Command:```python apply_topic_modeling.py```
+   - Output:
+       - Topics printed in the console for 2013 and 2023 datasets.
+
+### **5. Extract Contexts**
+   - Script: extract_context.py
+   - Purpose: Extracts and saves contextual sentences containing specific keywords from the datasets.
+   - Command: ```python extract_context.py```
+   - Output:
+       - Contexts printed in the console for 2013 and 2023 datasets.
+
+### **6. Visualize Word Associations**
+   - Script: visualize_word_associations.py
+   - Purpose: Trains Word2Vec models and visualizes word associations for each keyword in 2013 and 2023.
+   - Command: ```python visualize_word_associations.py```
+   - Output:
+       - outputs/word_associated_graph/word_associations_2013_<keyword>.png
+       - outputs/word_associated_graph/word_associations_2023_<keyword>.png
+
+### **7. Semantic Shift Analysis**
+   - Script: semantic_shift.py
+   - Purpose: Computes semantic similarity shifts for keywords between 2013 and 2023 using Sentence-BERT.
+   - Command: ```python semantic_shift.py```
+   - Output:
+       - outputs/semantic_shifts.txt
+       - outputs/keyword_frequency_comparison.png
 
 ---
