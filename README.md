@@ -60,9 +60,9 @@ EvoLang/
 ├── semantic_shift.py            # Semantic similarity analysis
 ├── visualize_word_associations.py # Word association visualizations
 ├── apply_topic_modeling.py      # Topic modeling with LDA
-├── README.md                    # Project documentation
+├── README.md                    # Project documentation```
 
-
+---
 ## **Execution Order and Purposes**
 
 ### **1. Generate Data**
@@ -99,3 +99,5 @@ EvoLang/
     - outputs/cosine_similarities.csv
     - outputs/cosine_similarity_heatmap.png
     - outputs/keyword_similarities.txt
+
+---
