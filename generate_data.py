@@ -12,15 +12,15 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=torch.float16, device_map="auto")
 tokenizer.pad_token_id = tokenizer.eos_token_id
 
-# Load datasets
-old_event_csv = os.path.join(DATA_DIR, '2013_year.csv')
-new_event_csv = os.path.join(DATA_DIR, '2023_year.csv')
+# Load raw data
+old_event_csv = dataset_path(2013)
+new_event_csv = dataset_path(2023)
 old_events = preprocess_utils.load_and_preprocess_dataset(old_event_csv, text_column=0)
 new_events = preprocess_utils.load_and_preprocess_dataset(new_event_csv, text_column=0)
 
-# Generate and save data
+# Generate and save processed data
 old_results = gen_utils.process_in_batches(old_events, model, tokenizer)
-gen_utils.save_results_to_csv(old_results, os.path.join(GENERATED_DATA_DIR, 'generated_responses_2013.csv'))
+gen_utils.save_results_to_csv(old_results, f"{GENERATED_DATA_DIR}/generated_responses_2013.csv")
 new_results = gen_utils.process_in_batches(new_events, model, tokenizer)
-gen_utils.save_results_to_csv(new_results, os.path.join(GENERATED_DATA_DIR, 'generated_responses_2023.csv'))
+gen_utils.save_results_to_csv(new_results, f"{GENERATED_DATA_DIR}/generated_responses_2023.csv")
 

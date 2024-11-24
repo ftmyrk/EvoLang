@@ -1,24 +1,40 @@
-import pandas as pd
-import random
+# extract_context.py
 
+import os
+import random
+from utils.macros import data_2013, data_2023, OUTPUT_DIR, KEYWORDS
+
+os.makedirs(OUTPUT_DIR, exist_ok=True)
+
+# Function to extract contexts for a given keyword
 def extract_contexts(data, keyword, num_samples=5):
+    """
+    Extract contexts (texts) containing the given keyword.
+    """
     contexts = [text for text in data['Original_Text'].tolist() if keyword in text]
     if len(contexts) > num_samples:
         contexts = random.sample(contexts, num_samples)
     return contexts
 
-old_data = pd.read_csv('/home/otamy001/EvoLang/generated_data/generated_responses_2013.csv')
-new_data = pd.read_csv('/home/otamy001/EvoLang/generated_data/generated_responses_2023.csv')
+# Extract and save contexts for each keyword
+output_file = os.path.join(OUTPUT_DIR, 'extracted_contexts.txt')
 
-keywords = ['economy', 'policy', 'shares', 'technology', 'market']
+with open(output_file, 'w') as f:
+    for keyword in KEYWORDS:
+        f.write(f"\nContexts for '{keyword}' in 2013:\n")
+        print(f"\nContexts for '{keyword}' in 2013:")
+        contexts_2013 = extract_contexts(data_2013, keyword)
+        for i, context in enumerate(contexts_2013, 1):
+            snippet = context[:300]  # Limit to 300 characters for brevity
+            print(f"{i}. {snippet}...")
+            f.write(f"{i}. {snippet}...\n")
+        
+        f.write(f"\nContexts for '{keyword}' in 2023:\n")
+        print(f"\nContexts for '{keyword}' in 2023:")
+        contexts_2023 = extract_contexts(data_2023, keyword)
+        for i, context in enumerate(contexts_2023, 1):
+            snippet = context[:300]
+            print(f"{i}. {snippet}...")
+            f.write(f"{i}. {snippet}...\n")
 
-for keyword in keywords:
-    print(f"\nContexts for '{keyword}' in 2013:")
-    contexts_2013 = extract_contexts(old_data, keyword)
-    for i, context in enumerate(contexts_2013, 1):
-        print(f"{i}. {context[:300]}...")  # first 300 characters for brevity
-
-    print(f"\nContexts for '{keyword}' in 2023:")
-    contexts_2023 = extract_contexts(new_data, keyword)
-    for i, context in enumerate(contexts_2023, 1):
-        print(f"{i}. {context[:300]}...")
+print(f"\nExtracted contexts saved to: {output_file}")

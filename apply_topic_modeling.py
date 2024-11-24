@@ -1,9 +1,18 @@
+# apply_topic_modeling.py
+
+import os
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.decomposition import LatentDirichletAllocation
-import pandas as pd
+from utils.macros import data_2013, data_2023, OUTPUT_DIR, KEYWORDS
+
+os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 # Function to apply LDA and display topics
 def apply_topic_modeling(data, keyword, num_topics=3, num_words=5):
+    """
+    Perform Latent Dirichlet Allocation (LDA) on texts containing a keyword 
+    and display the top topics.
+    """
     keyword_texts = [text for text in data['Original_Text'].tolist() if keyword in text]
     if keyword_texts:
         vectorizer = CountVectorizer(stop_words='english')
@@ -11,24 +20,37 @@ def apply_topic_modeling(data, keyword, num_topics=3, num_words=5):
         lda_model = LatentDirichletAllocation(n_components=num_topics, random_state=42)
         lda_model.fit(doc_term_matrix)
         
-        # Use get_feature_names() for older versions of scikit-learn
-        words = vectorizer.get_feature_names()
+        # Get feature names for topic words
+        words = vectorizer.get_feature_names_out()  # Use `get_feature_names_out()` for newer sklearn versions
+        topics = []
         for topic_idx, topic in enumerate(lda_model.components_):
-            print(f"Topic {topic_idx + 1}:")
-            print(" ".join([words[i] for i in topic.argsort()[-num_words:]]))
+            topic_words = " ".join([words[i] for i in topic.argsort()[-num_words:]])
+            print(f"Topic {topic_idx + 1}: {topic_words}")
+            topics.append(topic_words)
+        
+        return topics
     else:
         print(f"No articles found for '{keyword}'.")
-
-old_data = pd.read_csv('/home/otamy001/EvoLang/generated_data/generated_responses_2013.csv')
-new_data = pd.read_csv('/home/otamy001/EvoLang/generated_data/generated_responses_2023.csv')
-
-# List of keywords to analyze
-keywords = ['economy', 'policy', 'shares', 'technology', 'market']
+        return []
 
 # Apply topic modeling for each keyword in both datasets
-for keyword in keywords:
+results = {}
+
+for keyword in KEYWORDS:
     print(f"\nTopics for '{keyword}' in 2013:")
-    apply_topic_modeling(old_data, keyword)
+    topics_2013 = apply_topic_modeling(data_2013, keyword)
+    results[f'{keyword}_2013'] = topics_2013
 
     print(f"\nTopics for '{keyword}' in 2023:")
-    apply_topic_modeling(new_data, keyword)
+    topics_2023 = apply_topic_modeling(data_2023, keyword)
+    results[f'{keyword}_2023'] = topics_2023
+
+# Save results to a text file
+output_file = os.path.join(OUTPUT_DIR, 'topic_modeling_results.txt')
+with open(output_file, 'w') as f:
+    for key, topics in results.items():
+        f.write(f"\nTopics for {key}:\n")
+        for topic in topics:
+            f.write(f"- {topic}\n")
+
+print(f"\nTopic modeling results saved to: {output_file}")
