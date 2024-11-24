@@ -80,8 +80,7 @@ EvoLang/
 
 - Script: analyze_data.py
 - Purpose: Performs word frequency analysis, generates word clouds, and conducts sentiment analysis.
-- Command:
-```baspython analyze_data.py```
+- Command: ```python analyze_data.py```
 - Output:
     - outputs/word_freq_2013.png
     - outputs/word_freq_2023.png
@@ -94,8 +93,7 @@ EvoLang/
 
 - Script: semantic_analysis.py
 - Purpose: Measures cosine similarity between word embeddings and compares keyword evolution using Word2Vec.
-- Command:
-```bash python semantic_analysis.py```
+- Command: ```python semantic_analysis.py```
 - Output:
     - outputs/cosine_similarities.csv
     - outputs/cosine_similarity_heatmap.png
