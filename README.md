@@ -60,7 +60,8 @@ EvoLang/
 ├── semantic_shift.py            # Semantic similarity analysis
 ├── visualize_word_associations.py # Word association visualizations
 ├── apply_topic_modeling.py      # Topic modeling with LDA
-├── README.md                    # Project documentation```
+├── README.md                    # Project documentation
+```
 
 ---
 ## **Execution Order and Purposes**
