@@ -62,6 +62,20 @@ EvoLang/
 ├── apply_topic_modeling.py      # Topic modeling with LDA
 ├── README.md                    # Project documentation
 ```
+---
+## **Dataset**
+
+### **Sources**
+1. **2013 Dataset**: [Link to Download](https://drive.google.com/file/d/10nzlFF83IGoLDVlFILwtVBVW9TPaeL1m/view?usp=drive_link)
+2. **2023 Dataset**: [Link to Download](https://drive.google.com/file/d/10sLum2gntV-notnNUVsOMOIIqvNvtNrj/view?usp=drive_link)
+
+---
+
+### **Automated Download**
+
+The datasets are automatically downloaded when you run any script that requires them. The files are saved in the `Dataset/` directory.
+
+---
 
 ---
 ## **Execution Order and Purposes**
