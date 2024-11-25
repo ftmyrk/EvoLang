@@ -70,8 +70,10 @@ EvoLang/
 
 - Script: generate_data.py
 - Purpose: Preprocesses the datasets and uses LLaMA to generate text data for analysis.
-- Command: ```bash
-   generate_data.py```
+- Command:
+  ```bash
+  python generate_data.py
+  ```
 - Output:
     - generated_data/generated_responses_2013.csv
     - generated_data/generated_responses_2023.csv
@@ -80,8 +82,10 @@ EvoLang/
 
 - Script: analyze_data.py
 - Purpose: Performs word frequency analysis, generates word clouds, and conducts sentiment analysis.
-- Command: ```bash
-   python analyze_data.py```
+- Command:
+  ```bash
+   python analyze_data.py
+  ```
 - Output:
     - outputs/word_freq_2013.png
     - outputs/word_freq_2023.png
@@ -94,8 +98,10 @@ EvoLang/
 
 - Script: semantic_analysis.py
 - Purpose: Measures cosine similarity between word embeddings and compares keyword evolution using Word2Vec.
-- Command: ```bash
-   python semantic_analysis.py```
+- Command:
+  ```bash
+   python semantic_analysis.py
+  ```
 - Output:
     - outputs/cosine_similarities.csv
     - outputs/cosine_similarity_heatmap.png
@@ -104,16 +110,20 @@ EvoLang/
 ### **4. Apply Topic Modeling**
    - Script: apply_topic_modeling.py
    - Purpose: Extracts topics related to specific keywords using Latent Dirichlet Allocation (LDA).
-   - Command: ```bash
-   python apply_topic_modeling.py```
+   - Command:
+   ```bash
+   python apply_topic_modeling.py
+   ```
    - Output:
        - Topics printed in the console for 2013 and 2023 datasets.
 
 ### **5. Extract Contexts**
    - Script: extract_context.py
    - Purpose: Extracts and saves contextual sentences containing specific keywords from the datasets.
-   - Command: ```bash
-   python extract_context.py```
+   - Command:
+   ```bash
+   python extract_context.py
+   ```
    - Output:
        - Contexts printed in the console for 2013 and 2023 datasets.
 
