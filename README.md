@@ -124,7 +124,9 @@ EvoLang/
 ### **7. Semantic Shift Analysis**
    - Script: semantic_shift.py
    - Purpose: Computes semantic similarity shifts for keywords between 2013 and 2023 using Sentence-BERT.
-   - Command: ```python semantic_shift.py```
+   - Command: 
+   ```bash
+   python semantic_shift.py
    - Output:
        - outputs/semantic_shifts.txt
        - outputs/keyword_frequency_comparison.png
@@ -138,4 +140,5 @@ EvoLang/
 - **Command**:
   ```bash
   python kl_divergence.py
+  
 ---
