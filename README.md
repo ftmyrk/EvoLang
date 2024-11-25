@@ -129,4 +129,13 @@ EvoLang/
        - outputs/semantic_shifts.txt
        - outputs/keyword_frequency_comparison.png
 
+### **8. KL Divergence Analysis**
+
+- **Script**: `kl_divergence.py`
+- **Purpose**: 
+  - Quantifies the differences between the word distributions of 2013 and 2023 datasets.
+  - Identifies the top words contributing to the divergence.
+- **Command**:
+  ```bash
+  python kl_divergence.py
 ---

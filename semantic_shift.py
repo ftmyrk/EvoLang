@@ -1,12 +1,13 @@
 # sementic_shift.py
 
-from utils.macros import sentence_bert_model, tokens_2013, tokens_2023, data_2013, data_2023, OUTPUT_DIR, KEYWORDS
-from sentence_transformers import util
+from utils.macros import tokens_2013, tokens_2023, generated_events, OUTPUT_DIR, KEYWORDS
+from sentence_transformers import util, SentenceTransformer
 from utils.text_analysis_utils import plot_keyword_frequency
 import os
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
-
+sentence_bert_model = SentenceTransformer('all-MiniLM-L6-v2')
+data_2013, data_2023, _, _ = generated_events()
 # Function to compute semantic similarity for a keyword
 def compute_semantic_shift(keyword):
     """

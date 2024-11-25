@@ -1,11 +1,10 @@
 # analyze_data.py
 
 from utils import text_analysis_utils as analysis_utils
-from utils.macros import old_data, new_data, OUTPUT_DIR
+from utils.macros import generated_events, OUTPUT_DIR
 
 # Load datasets
-old_events = old_events()
-new_events = new_events()
+old_events, new_events = generated_events()
 
 # Perform analysis
 analysis_utils.word_frequency_analysis(old_events, "2013 Articles", f"{OUTPUT_DIR}/word_freq_2013.png")

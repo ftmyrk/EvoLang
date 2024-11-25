@@ -3,9 +3,11 @@
 import os
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.decomposition import LatentDirichletAllocation
-from utils.macros import data_2013, data_2023, OUTPUT_DIR, KEYWORDS
+import pandas as pd
+from utils.macros import generated_events, OUTPUT_DIR, KEYWORDS
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
+data_2013, data_2023, _, _ = generated_events()
 
 # Function to apply LDA and display topics
 def apply_topic_modeling(data, keyword, num_topics=3, num_words=5):
@@ -21,7 +23,7 @@ def apply_topic_modeling(data, keyword, num_topics=3, num_words=5):
         lda_model.fit(doc_term_matrix)
         
         # Get feature names for topic words
-        words = vectorizer.get_feature_names_out()  # Use `get_feature_names_out()` for newer sklearn versions
+        words = vectorizer.get_feature_names()  # Use `get_feature_names_out()` for newer sklearn versions
         topics = []
         for topic_idx, topic in enumerate(lda_model.components_):
             topic_words = " ".join([words[i] for i in topic.argsort()[-num_words:]])

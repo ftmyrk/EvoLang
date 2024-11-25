@@ -1,3 +1,5 @@
+# kl divergence.py
+
 from scipy.stats import entropy
 from collections import Counter
 import numpy as np
@@ -10,7 +12,9 @@ def compute_kl_divergence(distribution1, distribution2):
 
 # Word Distribution
 def get_word_distribution(tokens):
-    word_counts = Counter(tokens)
+    # Flatten the list of lists
+    flat_tokens = [word for sentence in tokens for word in sentence]
+    word_counts = Counter(flat_tokens)
     total_count = sum(word_counts.values())
     return {word: count / total_count for word, count in word_counts.items()}
 

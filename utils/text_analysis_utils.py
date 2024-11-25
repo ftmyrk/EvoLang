@@ -2,6 +2,7 @@
 
 import matplotlib.pyplot as plt
 import seaborn as sns
+from itertools import chain
 from collections import Counter
 from wordcloud import WordCloud
 from transformers import pipeline
@@ -136,21 +137,25 @@ def plot_bar_chart(data, title, xlabel, ylabel, output_file):
     print(f"Chart saved to {output_file}")
 
 def plot_keyword_frequency(keywords, tokens_2013, tokens_2023, output_file):
-    freq_2013 = Counter(tokens_2013)
-    freq_2023 = Counter(tokens_2023)
+    flat_tokens_2013 = list(chain.from_iterable(tokens_2013))
+    flat_tokens_2023 = list(chain.from_iterable(tokens_2023))
 
-    frequencies = {
-        'Keyword': keywords,
-        '2013': [freq_2013[keyword] for keyword in keywords],
-        '2023': [freq_2023[keyword] for keyword in keywords]
-    }
+    # Count keyword frequencies
+    freq_2013 = Counter(flat_tokens_2013)
+    freq_2023 = Counter(flat_tokens_2023)
 
-    plt.bar(frequencies['Keyword'], frequencies['2013'], alpha=0.6, label='2013')
-    plt.bar(frequencies['Keyword'], frequencies['2023'], alpha=0.6, label='2023')
-    plt.title('Keyword Frequency Comparison (2013 vs 2023)')
-    plt.xlabel('Keyword')
-    plt.ylabel('Frequency')
+    keyword_frequencies = {keyword: (freq_2013.get(keyword, 0), freq_2023.get(keyword, 0)) for keyword in keywords}
+    keywords, freqs_2013, freqs_2023 = zip(*[(k, v[0], v[1]) for k, v in keyword_frequencies.items()])
+
+    # Plotting
+    x = range(len(keywords))
+    plt.figure(figsize=(10, 6))
+    plt.bar(x, freqs_2013, width=0.4, label="2013", align="center")
+    plt.bar(x, freqs_2023, width=0.4, label="2023", align="edge")
+    plt.xticks(x, keywords)
+    plt.xlabel("Keywords")
+    plt.ylabel("Frequency")
+    plt.title("Keyword Frequency Comparison")
     plt.legend()
     plt.savefig(output_file)
     plt.close()
-    print(f"Keyword frequency comparison saved to {output_file}")

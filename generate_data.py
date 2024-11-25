@@ -2,8 +2,10 @@
 
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from utils import text_preprocessing_utils as preprocess_utils, text_generation_utils as gen_utils
-from utils.macros import GENERATED_DATA_DIR, DATA_DIR
+from utils.macros import GENERATED_DATA_DIR, download_dataset
 import torch
+
+old_event_csv, new_event_csv = download_dataset()
 
 # Model setup
 model_id = "meta-llama/Llama-3.2-1B"
@@ -12,9 +14,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=torch.float16, device_map="auto")
 tokenizer.pad_token_id = tokenizer.eos_token_id
 
-# Load raw data
-old_event_csv = dataset_path(2013)
-new_event_csv = dataset_path(2023)
+
 old_events = preprocess_utils.load_and_preprocess_dataset(old_event_csv, text_column=0)
 new_events = preprocess_utils.load_and_preprocess_dataset(new_event_csv, text_column=0)
 
