@@ -68,25 +68,23 @@ EvoLang/
 
 ### **1. Generate Data**
 
-- Script: generate_data.py
-- Purpose: Preprocesses the datasets and uses LLaMA to generate text data for analysis.
-- Command:
+- **Script**: generate_data.py
+- **Purpose**: Preprocesses the datasets and uses LLaMA to generate text data for analysis.
   ```bash
   python generate_data.py
   ```
-- Output:
+- **Output**:
     - generated_data/generated_responses_2013.csv
     - generated_data/generated_responses_2023.csv
 
 ### **2. Analyze Data**
 
-- Script: analyze_data.py
-- Purpose: Performs word frequency analysis, generates word clouds, and conducts sentiment analysis.
-- Command:
+- **Script**: analyze_data.py
+- **Purpose**: Performs word frequency analysis, generates word clouds, and conducts sentiment analysis.
   ```bash
-   python analyze_data.py
+  python analyze_data.py
   ```
-- Output:
+- **Output**:
     - outputs/word_freq_2013.png
     - outputs/word_freq_2023.png
     - outputs/wordcloud_2013.png
@@ -96,54 +94,51 @@ EvoLang/
 
 ### **3. Measure Semantic Shifts**
 
-- Script: semantic_analysis.py
-- Purpose: Measures cosine similarity between word embeddings and compares keyword evolution using Word2Vec.
-- Command:
+- **Script**: semantic_analysis.py
+- **Purpose**: Measures cosine similarity between word embeddings and compares keyword evolution using Word2Vec.
   ```bash
    python semantic_analysis.py
   ```
-- Output:
+- **Output**:
     - outputs/cosine_similarities.csv
     - outputs/cosine_similarity_heatmap.png
     - outputs/keyword_similarities.txt
 
 ### **4. Apply Topic Modeling**
-   - Script: apply_topic_modeling.py
-   - Purpose: Extracts topics related to specific keywords using Latent Dirichlet Allocation (LDA).
-   - Command:
+   - **Script**: apply_topic_modeling.py
+   - **Purpose**: Extracts topics related to specific keywords using Latent Dirichlet Allocation (LDA).
    ```bash
    python apply_topic_modeling.py
    ```
-   - Output:
+   - **Output**:
        - Topics printed in the console for 2013 and 2023 datasets.
 
 ### **5. Extract Contexts**
-   - Script: extract_context.py
-   - Purpose: Extracts and saves contextual sentences containing specific keywords from the datasets.
-   - Command:
+   - **Script**: extract_context.py
+   - **Purpose**: Extracts and saves contextual sentences containing specific keywords from the datasets.
    ```bash
    python extract_context.py
    ```
-   - Output:
+   - **Output**:
        - Contexts printed in the console for 2013 and 2023 datasets.
 
 ### **6. Visualize Word Associations**
-   - Script: visualize_word_associations.py
-   - Purpose: Trains Word2Vec models and visualizes word associations for each keyword in 2013 and 2023.
-   - Command: ```bash
-   python visualize_word_associations.py```
-   - Output:
+   - **Script**: visualize_word_associations.py
+   - **Purpose**: Trains Word2Vec models and visualizes word associations for each keyword in 2013 and 2023.
+  ```bash
+  python visualize_word_associations.py
+  ```
+   - **Output**:
        - outputs/word_associated_graph/word_associations_2013_<keyword>.png
        - outputs/word_associated_graph/word_associations_2023_<keyword>.png
 
 ### **7. Semantic Shift Analysis**
-   - Script: semantic_shift.py
-   - Purpose: Computes semantic similarity shifts for keywords between 2013 and 2023 using Sentence-BERT.
-   - Command: 
+   - **Script**: semantic_shift.py
+   - **Purpose**: Computes semantic similarity shifts for keywords between 2013 and 2023 using Sentence-BERT.
    ```bash
    python semantic_shift.py
    ```
-   - Output:
+   - **Output**:
        - outputs/semantic_shifts.txt
        - outputs/keyword_frequency_comparison.png
 
@@ -153,8 +148,10 @@ EvoLang/
 - **Purpose**: 
   - Quantifies the differences between the word distributions of 2013 and 2023 datasets.
   - Identifies the top words contributing to the divergence.
-- **Command**:
   ```bash
   python kl_divergence.py
   ```
+- Output:
+	-	outputs/kl_divergence.txt: Contains the KL divergence value.
+	-	outputs/kl_divergence_contributions.png: A bar chart showing the top contributors to the KL divergence.
 ---
