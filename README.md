@@ -76,8 +76,6 @@ EvoLang/
 The datasets are automatically downloaded when you run any script that requires them. The files are saved in the `Dataset/` directory.
 
 ---
-
----
 ## **Execution Order and Purposes**
 
 ### **1. Generate Data**
