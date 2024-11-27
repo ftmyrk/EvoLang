@@ -174,6 +174,6 @@ The datasets are automatically downloaded when you run any script that requires 
 
 - Most used words
 <div style="display: flex; justify-content: space-between;">
-    <img src="https://github.com/ftmyrk/EvoLang/blob/main/outputs/wordcloud_2013.png" alt="alt-text-1" style="width: 60%;"/>
-    <img src="https://github.com/ftmyrk/EvoLang/blob/main/outputs/wordcloud_2023.png" alt="alt-text-2" style="width: 60%;"/>
+    <img src="https://github.com/ftmyrk/EvoLang/blob/main/outputs/wordcloud_2013.png" alt="alt-text-1" style="width: 50%;"/>
+    <img src="https://github.com/ftmyrk/EvoLang/blob/main/outputs/wordcloud_2023.png" alt="alt-text-2" style="width: 50%;"/>
 </div>
