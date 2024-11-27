@@ -168,4 +168,7 @@ The datasets are automatically downloaded when you run any script that requires 
 ---
 
 
-![alt-text-1](https://github.com/ftmyrk/EvoLang/blob/main/outputs/wordcloud_2013.png) ![alt-text-2](https://github.com/ftmyrk/EvoLang/blob/main/outputs/wordcloud_2023.png) 
+<div style="display: flex; justify-content: space-between;">
+    <img src="https://github.com/ftmyrk/EvoLang/blob/main/outputs/wordcloud_2013.png" alt="alt-text-1" style="width: 48%;"/>
+    <img src="https://github.com/ftmyrk/EvoLang/blob/main/outputs/wordcloud_2023.png" alt="alt-text-2" style="width: 48%;"/>
+</div>
