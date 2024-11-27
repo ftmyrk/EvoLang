@@ -29,7 +29,6 @@ def plot_word_associations(model, keyword, top_n=10, output_file=None):
     else:
         print(f"'{keyword}' not found in the model.")
 
-# Generate plots for each keyword
 for keyword in KEYWORDS:
     print(f"\nWord associations for '{keyword}' in 2013:")
     plot_word_associations(

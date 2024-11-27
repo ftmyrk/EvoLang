@@ -20,7 +20,6 @@ NEW_EVENT_LINK = "https://drive.google.com/uc?id=10sLum2gntV-notnNUVsOMOIIqvNvtN
 OLD_EVENT_FILE = os.path.join(DATA_DIR, "2013_year.csv")
 NEW_EVENT_FILE = os.path.join(DATA_DIR, "2023_year.csv")
 
-# Keywords for analysis
 KEYWORDS = ['economy', 'policy', 'shares', 'technology', 'market']
 
 def download_with_progress(url, output_file):
@@ -79,9 +78,8 @@ def load_or_train_word2vec(tokens, year):
     model.save(model_path)
     return model
 
-# Preload datasets and tokens
+# Preloads datasets and tokens
 def preload_datasets_and_models():
-    """Preload datasets, tokens, and models."""
     download_dataset()
     old_data, new_data, _, _ = generated_events()
     tokens_2013 = tokenize_data(old_data)

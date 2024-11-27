@@ -51,8 +51,6 @@ def generate_wordcloud(events, title, output_file):
     plt.imshow(wordcloud, interpolation="bilinear")
     plt.axis("off")
     plt.title(f"Word Cloud for {title}")
-
-    # Save the word cloud image to a file
     plt.savefig(output_file)
     plt.close()
 
@@ -106,7 +104,7 @@ def contextual_analysis(word, events, year, model, tokenizer):
         "text-generation",
         model=model,
         tokenizer=tokenizer,
-        device=0 if torch.cuda.is_available() else -1  # Use GPU if available
+        device=0 if torch.cuda.is_available() else -1  # Use GPU if its available
     )
     for i, event in enumerate(events[:3]):
         input_text = f"In the year {year}, people commonly discussed {word}. Can you tell me more about {word}?"
@@ -140,14 +138,12 @@ def plot_keyword_frequency(keywords, tokens_2013, tokens_2023, output_file):
     flat_tokens_2013 = list(chain.from_iterable(tokens_2013))
     flat_tokens_2023 = list(chain.from_iterable(tokens_2023))
 
-    # Count keyword frequencies
     freq_2013 = Counter(flat_tokens_2013)
     freq_2023 = Counter(flat_tokens_2023)
 
     keyword_frequencies = {keyword: (freq_2013.get(keyword, 0), freq_2023.get(keyword, 0)) for keyword in keywords}
     keywords, freqs_2013, freqs_2023 = zip(*[(k, v[0], v[1]) for k, v in keyword_frequencies.items()])
 
-    # Plotting
     x = range(len(keywords))
     plt.figure(figsize=(10, 6))
     plt.bar(x, freqs_2013, width=0.4, label="2013", align="center")

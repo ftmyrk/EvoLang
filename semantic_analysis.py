@@ -34,7 +34,6 @@ def compare_keyword_vectors(model_2013, model_2023, keywords):
         else:
             results[keyword] = None
 
-    # Automatically save results
     output_file = os.path.join(OUTPUT_DIR, 'keyword_similarities.txt')
     with open(output_file, 'w') as f:
         for keyword, similarity in results.items():
@@ -48,7 +47,6 @@ def compare_keyword_vectors(model_2013, model_2023, keywords):
     print(f"\nKeyword similarities saved to: {output_file}")
     return output_file
 
-# Function to plot and save a heatmap of similarity data
 def plot_similarity_heatmap(similarity_df):
     output_file = os.path.join(OUTPUT_DIR, 'cosine_similarity_heatmap.png')
     plt.figure(figsize=(10, 8))
@@ -59,8 +57,6 @@ def plot_similarity_heatmap(similarity_df):
     print(f"Cosine similarity heatmap saved to: {output_file}")
     return output_file
 
-
-# Convert token lists into strings
 texts_2013 = [' '.join(tokens) for tokens in tokens_2013]
 texts_2023 = [' '.join(tokens) for tokens in tokens_2023]
 
