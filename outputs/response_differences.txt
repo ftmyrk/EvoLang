@@ -1,0 +1,92 @@
+Question: The president of the United States is...
+Response 2013: Donald Trump
+
+Explanation:
+The president of the United States is Donald Trump. Donald Trump is the 45th president of the United States. He is the first president to be elected on a platform of making America great again. He was elected on November
+Response 2023: The president of the United States is...
+
+Explanation: The president of the United States is the chief executive officer of the United States. He or she is elected by the people of the United States, and is the commander-in-chief of the United States military
+Similarity: 0.2253
+
+Question: Popular platforms for sharing music include...
+Response 2013: 1. Delhi 2. Mumbai
+Response 2023: nan
+Similarity: 0.0000
+
+Question: The most discussed technological advancement is...
+Response 2013: The most discussed technological advancement is
+Response 2023: The most discussed technological advancement is mobile computing. It is a term that has been coined by the popular press to describe a new way of working with information. It is a term that has been coined by the popular press to describe a new way of working
+Similarity: 0.3072
+
+Question: Global concerns regarding climate change focus on...
+Response 2013: Global concerns regarding climate change focus on greenhouse gas emissions.
+
+Question:
+Which of the following is not a feature of the
+
+Question:
+A. A. A. A. B. B. B. B. C. C. C. C.
+Response 2023: C
+
+Explanation: Climate change is the change in the average weather patterns of the Earth. This includes the changes in temperature, precipitation, and wind. Climate change has been caused by human activity.
+Similarity: 0.1137
+
+Question: The most influential company in the tech industry is...
+Response 2013: Microsoft
+Explanation: The most influential company in the tech industry is Microsoft. The company's market capitalization is $ 1,070 billion, and its market share is 14.5 percent. Microsoft's revenue is $ 100 billion. It
+Response 2023: Apple
+
+Explanation: Apple is the most influential company in the tech industry. It is a company that has revolutionized the way people use technology. It was founded by Steve Jobs and Steve Wozniak in 1976 and has since grown to
+Similarity: 0.2895
+
+Question: People primarily use the internet for...
+Response 2013: Question:
+Which of the following is not a
+Response 2023: to find information
+Similarity: 0.1333
+
+Question: The term 'AI' is commonly associated with...
+Response 2013: Artificial Intelligence
+
+Explanation: Artificial Intelligence is the study of human intelligence and its development through machine intelligence.
+
+It is a branch of computer science that deals with the simulation of human intelligence in a computer system. The goal of AI is to build machines that think
+Response 2023: The term 'AI' is commonly associated with
+
+The term 'AI' is commonly associated with Artificial Intelligence. AI is the science of making computers do things that would be very difficult for humans to do, or impossible for humans to do well. AI
+Similarity: 0.0292
+
+Question: The leading social media platform is...
+Response 2013: facebook
+
+Explanation:
+
+The leading social media platform is facebook. It is the most popular social media platform in the world. Facebook is a social networking service that allows users to communicate and stay connected with friends and family. It is one of the largest websites
+Response 2023: Facebook
+Similarity: 0.0556
+
+Question: Artificial intelligence has...
+Response 2013: Artificial intelligence has been used in various fields such as medicine, transportation, and robotics. It has also been used in the field of music, where it has been used to create new music styles and compositions. In addition, artificial intelligence has been used in
+Response 2023: Artificial intelligence has been used for many years in the medical field. In the medical field, artificial intelligence (AI) has been used for many years to help doctors make medical decisions and to help patients communicate with their doctors. In recent years, AI has
+Similarity: 0.1593
+
+Question: Space exploration is spearheaded by...
+Response 2013: space exploration is spearheaded by
+
+Explanation:
+Space exploration is spearheaded by the United States, Russia, and China. The European Space Agency (ESA) is also involved in space exploration, but is not a member of the United States, Russia,
+Response 2023: Space exploration is spearheaded by the national aeronautics and space administration (nasa)
+
+Explanation: Space exploration is spearheaded by the national aeronautics and space administration (nasa). nasa is a federal agency of the united states
+Similarity: 0.3755
+
+Question: People in twitter canceled ...
+Response 2013: 4.3 million
+
+Explanation:
+Twitter has suspended 4.3 million accounts, including 1.6 million bots, for violating its policies, the company said in a statement on Wednesday.
+
+The company said it had suspended the accounts for a
+Response 2023: People in twitter canceled...
+Similarity: 0.1496
+
