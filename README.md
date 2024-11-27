@@ -166,9 +166,14 @@ The datasets are automatically downloaded when you run any script that requires 
 	-	outputs/kl_divergence.txt: Contains the KL divergence value.
 	-	outputs/kl_divergence_contributions.png: A bar chart showing the top contributors to the KL divergence.
 ---
-
-
+## **Visual Output** 
+ - Question response output comparisation between 2013 and 2023
 <div style="display: flex; justify-content: space-between;">
-    <img src="https://github.com/ftmyrk/EvoLang/blob/main/outputs/wordcloud_2013.png" alt="alt-text-1" style="width: 48%;"/>
-    <img src="https://github.com/ftmyrk/EvoLang/blob/main/outputs/wordcloud_2023.png" alt="alt-text-2" style="width: 48%;"/>
+	<img src = "https://github.com/ftmyrk/EvoLang/blob/main/outputs/response_similarity_comparison.png" style = width: 20%;"/>
+</div>
+
+- Most used words
+<div style="display: flex; justify-content: space-between;">
+    <img src="https://github.com/ftmyrk/EvoLang/blob/main/outputs/wordcloud_2013.png" alt="alt-text-1" style="width: 40%;"/>
+    <img src="https://github.com/ftmyrk/EvoLang/blob/main/outputs/wordcloud_2023.png" alt="alt-text-2" style="width: 40%;"/>
 </div>
