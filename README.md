@@ -10,8 +10,8 @@ This project explores how language evolves over time by analyzing datasets of ne
 - Collected news articles from 2013 and 2023.
 - Preprocessed the text by cleaning, tokenizing, and preparing it for analysis.
 
-### 2. **Text Generation**
-- Used the `LLaMA` language model to generate expanded text from the datasets.
+### 2. **Text Generation with LLaMA**
+- Utilized the LLaMA language model to generate responses based on predefined questions and context from the datasets.
 - Stored generated responses for both years for further analysis.
 
 ### 3. **Sentiment Analysis**
@@ -38,29 +38,15 @@ This project explores how language evolves over time by analyzing datasets of ne
 - Trained Word2Vec models to explore associations for specific keywords.
 - Created bar charts highlighting the most similar words for each keyword in 2013 and 2023.
 
+### 9. **Temporal Question-Answering with LLaMA**
+- Designed a set of contextually relevant questions reflecting societal and knowledge-based themes (e.g., “The president of the United States is…”).
+- Highlighted temporal influences on the model’s generated answers
 
----
+### 10. **Analysis of Temporal Divergences**
+- Compared LLaMA-generated responses across years using text similarity metrics.
+- Identified questions with the most significant temporal divergence in responses.
+- Visualized similarities and differences in generated content to reveal context-based variations.
 
-## **Repository Structure**
-
-```plaintext
-EvoLang/
-├── Dataset/                     # Raw datasets (2013 and 2023 articles)
-├── generated_data/              # Generated text and intermediate data
-├── outputs/                     # Output plots and analysis results
-├── utils/                       # Utility scripts and macros
-│   ├── text_analysis_utils.py   # Functions for sentiment and word frequency analysis
-│   ├── text_generation_utils.py # Utilities for LLaMA text generation
-│   ├── text_preprocessing_utils.py # Functions for data cleaning and preprocessing
-│   ├── macros.py                # Centralized macros for data and model initialization
-├── analyze_data.py              # Script for word frequency and sentiment analysis
-├── generate_data.py             # Script for generating text using LLaMA
-├── kl_divergence.py             # KL Divergence analysis
-├── semantic_shift.py            # Semantic similarity analysis
-├── visualize_word_associations.py # Word association visualizations
-├── apply_topic_modeling.py      # Topic modeling with LDA
-├── README.md                    # Project documentation
-```
 ---
 ## **Dataset**
 
