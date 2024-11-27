@@ -166,3 +166,7 @@ The datasets are automatically downloaded when you run any script that requires 
 	-	outputs/kl_divergence.txt: Contains the KL divergence value.
 	-	outputs/kl_divergence_contributions.png: A bar chart showing the top contributors to the KL divergence.
 ---
+
+
+![alt-text-1](https://github.com/ftmyrk/EvoLang/blob/main/outputs/wordcloud_2013.png) 
+![alt-text-2](https://github.com/ftmyrk/EvoLang/blob/main/outputs/wordcloud_2023.png) 
