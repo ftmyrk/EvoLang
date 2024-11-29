@@ -49,21 +49,18 @@ def download_dataset():
 
 # Functions to load datasets
 def generated_events():
-    old_data_path = os.path.join(GENERATED_DATA_DIR, 'generated_responses_2013.csv')
-    new_data_path = os.path.join(GENERATED_DATA_DIR, 'generated_responses_2023.csv')
+    old_data_path = "/home/otamy001/EvoLang/generated_data/generated_responses_2013.csv"
+    new_data_path = "/home/otamy001/EvoLang/generated_data/generated_responses_2023.csv"
     
     if not os.path.exists(old_data_path):
-        raise FileNotFoundError(f"File not found: {old_data_path}")
+        print(f"Generated data file not found: {old_data_path}. Ensure you have run 'generate_data.py'.")
+        return None, None
     if not os.path.exists(new_data_path):
-        raise FileNotFoundError(f"File not found: {new_data_path}")
-    
-    old_data = pd.read_csv(old_data_path)
-    new_data = pd.read_csv(new_data_path)
-    
-    old_processed = [{"text": text} for text in old_data["Original_Text"]]
-    new_processed = [{"text": text} for text in new_data["Original_Text"]]
-    
-    return old_data, new_data, old_processed, new_processed
+        print(f"Generated data file not found: {new_data_path}. Ensure you have run 'generate_data.py'.")
+        return None, None
+
+    # Load existing data
+    return pd.read_csv(old_data_path), pd.read_csv(new_data_path)
 
 # Tokenize text data into word lists
 def tokenize_data(data):
@@ -80,12 +77,11 @@ def load_or_train_word2vec(tokens, year):
 
 # Preloads datasets and tokens
 def preload_datasets_and_models():
-    download_dataset()
-    old_data, new_data, _, _ = generated_events()
+    old_data, new_data = generated_events()
     tokens_2013 = tokenize_data(old_data)
     tokens_2023 = tokenize_data(new_data)
-    word2vec_model_2013 = load_or_train_word2vec(tokens_2013, 2013)
-    word2vec_model_2023 = load_or_train_word2vec(tokens_2023, 2023)
+    word2vec_model_2013 = None
+    word2vec_model_2023 = None
     return old_data, new_data, tokens_2013, tokens_2023, word2vec_model_2013, word2vec_model_2023
 
 old_data, new_data, tokens_2013, tokens_2023, word2vec_model_2013, word2vec_model_2023 = preload_datasets_and_models()

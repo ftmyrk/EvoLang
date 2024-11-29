@@ -24,9 +24,9 @@ sentiment_analyzer = pipeline(
 
 # Word Frequency Analysis 
 def word_frequency_analysis(events, title, output_file):
-    all_text = " ".join([event["text"] for event in events])
+    all_text = " ".join(events["Generated_Text"].astype(str))
     words = all_text.split()
-    word_counts = Counter(words)
+    word_counts = Counter(all_text)
     common_words = word_counts.most_common(20)
     words, counts = zip(*common_words)
     
@@ -40,7 +40,7 @@ def word_frequency_analysis(events, title, output_file):
 
 # Word Cloud
 def generate_wordcloud(events, title, output_file):
-    all_text = " ".join([event["text"] for event in events])
+    all_text = " ".join(events["Generated_Text"].astype(str))
     wordcloud = WordCloud(  
         width=800,
         height=400,
@@ -58,8 +58,8 @@ def generate_wordcloud(events, title, output_file):
 # Sentiment Analysis
 def analyze_sentiment(events):
     sentiments = []
-    for event in events:
-        result = sentiment_analyzer(event["text"][:512])
+    for event in events["Generated_Text"].astype(str):
+        result = sentiment_analyzer(event[:512])
         sentiments.append(result[0])
     return sentiments
 
@@ -79,14 +79,14 @@ def clean_text(text):
     return cleaned_words
 
 def get_unique_words(events):
-    all_text = " ".join([event["text"] for event in events])
+    all_text = " ".join(events["Generated_Text"].astype(str))
     cleaned_words = clean_text(all_text)
     return set(cleaned_words)
 
 # Keyword Frequency Comparison
 def compare_keyword_frequencies(events_2013, events_2023, keywords):
     def count_keywords(events, keywords):
-        all_text = " ".join([event["text"] for event in events])
+        all_text = " ".join(events["Generated_Text"].astype(str))
         word_counts = Counter(all_text.split())
         return {keyword: word_counts[keyword] for keyword in keywords if keyword in word_counts}
 
