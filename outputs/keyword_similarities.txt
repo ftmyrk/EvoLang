@@ -1,5 +1,5 @@
-Cosine similarity for 'economy' between 2013 and 2023: -0.0214
-Cosine similarity for 'policy' between 2013 and 2023: -0.0645
-Cosine similarity for 'shares' between 2013 and 2023: -0.0261
-Cosine similarity for 'technology' between 2013 and 2023: 0.0580
-Cosine similarity for 'market' between 2013 and 2023: 0.1800
+Cosine similarity for 'economy' between 2013 and 2023: 1.0000
+Cosine similarity for 'policy' between 2013 and 2023: 1.0000
+Cosine similarity for 'shares' between 2013 and 2023: 1.0000
+Cosine similarity for 'technology' between 2013 and 2023: 1.0000
+Cosine similarity for 'market' between 2013 and 2023: 1.0000
