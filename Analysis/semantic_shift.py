@@ -7,7 +7,7 @@ import os
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 sentence_bert_model = SentenceTransformer('all-MiniLM-L6-v2')
-data_2013, data_2023, _, _ = generated_events()
+data_2013, data_2023 = generated_events()
 
 # Computes the semantic similarity between sentences containing the keyword in 2013 and 2023 datasets.
 def compute_semantic_shift(keyword):

@@ -1,42 +1,63 @@
 # text_generation_utils.py
 
 import torch
-from transformers import pipeline
+from transformers import pipeline, AutoTokenizer, AutoModelForCausalLM, AutoModelForSeq2SeqLM
 import csv
-# tokenizer = None
-# model = None
 
-def truncate_text(input_text, max_length=256):
-    tokens = tokenizer.encode(input_text, truncation=True, max_length=max_length)
-    return tokenizer.decode(tokens)
+# Load language model and tokenizer
+def load_model_and_tokenizer(model_id):
+    tokenizer = AutoTokenizer.from_pretrained(model_id)
+    model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype="auto", device_map="auto")
+    model.to(torch.device("cuda" if torch.cuda.is_available() else "cpu"))
+    return model, tokenizer
 
-# Generate text based on truncated input
-def generate_text(input_text, model, tokenizer, max_new_tokens=30):
-    try:
-        generation_pipeline = pipeline("text-generation", model=model, tokenizer=tokenizer)
-        return generation_pipeline(input_text, max_new_tokens=max_new_tokens)[0]['generated_text']
-    except Exception as e:
-        print(f"Error: {str(e)}")
-        return None
+# Generate text
+def generate_text(prompt, model, tokenizer, max_length=200):
+    """
+    Generates text based on the given prompt.
+    """
+    inputs = tokenizer(prompt, return_tensors="pt", truncation=True, max_length=512).to(model.device)
+    outputs = model.generate(
+        inputs['input_ids'],
+        max_new_tokens=max_length,
+        temperature=1.0,
+        top_p=0.85,
+        do_sample=True
+    )
+    return tokenizer.decode(outputs[0], skip_special_tokens=True)
 
-def process_in_batches(events, model, tokenizer, batch_size=100):
-    results = []
-    for i in range(0, len(events), batch_size):
-        print(f"Processing batch {i // batch_size + 1} of {len(events) // batch_size + 1}")
-        batch = events[i:i + batch_size]
-        for event in batch:
-            generated_text = generate_text(event["text"], model, tokenizer)
-            if generated_text:
-                results.append((event["text"], generated_text))
-        if torch.cuda.is_available():
-            torch.cuda.empty_cache()
-    return results
+# Summarization pipeline
+def load_summarization_model():
+    """
+    Load the summarization model and tokenizer.
+    """
+    model_id = "facebook/bart-large-cnn"
+    tokenizer = AutoTokenizer.from_pretrained(model_id)
+    model = AutoModelForSeq2SeqLM.from_pretrained(model_id)
+    model.to(torch.device("cuda" if torch.cuda.is_available() else "cpu"))
+    return model, tokenizer
 
+def summarize_text(text, model, tokenizer, max_length=150):
+    """
+    Summarizes the input text using the summarization model.
+    """
+    text = text[:1024]  # Ensure text isn't too long for summarization
+    inputs = tokenizer("summarize: " + text, return_tensors="pt", truncation=True, max_length=150).to(model.device)
+    summary_ids = model.generate(
+        inputs['input_ids'], 
+        max_length=max_length, 
+        min_length=30, 
+        length_penalty=2.0, 
+        num_beams=4
+    )
+    return tokenizer.decode(summary_ids[0], skip_special_tokens=True)
 
+# Save results to CSV
 def save_results_to_csv(results, output_file):
+    """
+    Save the results to a CSV file.
+    """
     with open(output_file, mode='w', newline='', encoding='utf-8') as file:
-        writer = csv.writer(file)
-        writer.writerow(["Original_Text", "Generated_Text"])
-        for original, generated in results:
-            writer.writerow([original, generated])
-
+        writer = csv.DictWriter(file, fieldnames=["Original_Text", "Generated_Full_Response", "Generated_Only_Response"])
+        writer.writeheader()
+        writer.writerows(results)

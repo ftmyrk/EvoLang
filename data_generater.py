@@ -8,38 +8,32 @@ from utils.text_generation_utils import load_model_and_tokenizer, generate_text,
 import random
 import torch
 
-# Load datasets
 old_csv, new_csv = download_dataset()
 df_2013 = load_dataset(old_csv)
 df_2023 = load_dataset(new_csv)
 
-# Initialize model and tokenizer
 model_id = "meta-llama/Llama-3.2-3B"
 model, tokenizer = load_model_and_tokenizer(model_id)
 summ_model, summ_tokenizer = load_summarization_model()
 
-prompts = [
-    "Discuss the impact of social media on modern communication.",
-    "Describe recent advancements in renewable energy technologies.",
-    "Explore the challenges of space exploration.",
-    "Analyze the global effects of economic inflation.",
-    "Explain the role of artificial intelligence in healthcare.",
-]
+# prompts = [
+#     "Discuss the impact of social media on modern communication.",
+#     "Describe recent advancements in renewable energy technologies.",
+#     "Explore the challenges of space exploration.",
+#     "Analyze the global effects of economic inflation.",
+#     "Explain the role of artificial intelligence in healthcare.",
+# ]
 def extract_only_response(generated_text, year):
-    """
-    Remove the context from the generated text to extract the core response.
-    """
     return generated_text.replace(f"In {year},", "").strip()
 
 
 
 def generate_responses(df, year, output_file):
-    """
-    Generates text for each row in the dataset based on the given year context.
-    """
     results = []
     print(f"Generating responses for {year}...")
-    for _, row in df.sample(1000).iterrows():  # Random sample of 10 rows
+    for i, row in df.iterrows():  # Random sample of 10 rows
+        if i%100 ==0:
+            print(i)
         if year == 2013:
             original_text = row["Text"]
             # preprocessed_text = row["Preprocessed_Text"]
@@ -49,12 +43,9 @@ def generate_responses(df, year, output_file):
         # Truncate text if too long¸¸¸¸¸
         truncated_text = summarize_text(original_text, summ_model, summ_tokenizer, max_length=150)
         # truncated_text = preprocess_text(preprocessed_text, max_tokens=1024)
-
-        # Prepare prompt
         prompt = f"In {year}, {truncated_text}"
         generated_full_response = generate_text(prompt, model, tokenizer)
 
-        # Extract only response
         core_response = generated_full_response.replace(f"In {year},", "").strip()
 
         results.append({
@@ -63,12 +54,9 @@ def generate_responses(df, year, output_file):
             "Generated_Only_Response": core_response
         })
 
-    # Save results to CSV
     output_path = os.path.join(GENERATED_DATA_DIR, output_file)
     pd.DataFrame(results).to_csv(output_path, index=False)
     print(f"Generated responses saved to {output_path}")
 
-
-# Generate for 2013 and 2023
 generate_responses(df_2013, 2013, "generated_responses_2013.csv")
 generate_responses(df_2023, 2023, "generated_responses_2023.csv")

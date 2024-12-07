@@ -24,19 +24,20 @@ def calculate_cosine_similarity(embeddings1, embeddings2):
 
 # Function to compare keyword vectors between two Word2Vec models
 def compare_keyword_vectors(model_2013, model_2023, keywords):
-    results = {}
+    if model_2013 is None or model_2023 is None:
+        print("One or both Word2Vec models are not available.")
+        return
+
     for keyword in keywords:
         if keyword in model_2013.wv and keyword in model_2023.wv:
-            vec_2013 = model_2013.wv[keyword].reshape(1, -1)
-            vec_2023 = model_2023.wv[keyword].reshape(1, -1)
-            similarity = cosine_similarity(vec_2013, vec_2023)[0][0]
-            results[keyword] = similarity
+            similarity = model_2013.wv.similarity(keyword, keyword)
+            print(f"Keyword: {keyword}, Similarity: {similarity:.4f}")
         else:
-            results[keyword] = None
+            print(f"Keyword '{keyword}' not found in one of the models.")
 
     output_file = os.path.join(OUTPUT_DIR, 'keyword_similarities.txt')
     with open(output_file, 'w') as f:
-        for keyword, similarity in results.items():
+        for keyword, similarity in result.items():
             if similarity is not None:
                 result = f"Cosine similarity for '{keyword}' between 2013 and 2023: {similarity:.4f}"
             else:

@@ -7,7 +7,7 @@ import pandas as pd
 from utils.macros import generated_events, OUTPUT_DIR, KEYWORDS
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
-data_2013, data_2023, _, _ = generated_events()
+data_2013, data_2023 = generated_events()
 
 # Function to apply Latent Dirichlet Allocation and display topics
 def apply_topic_modeling(data, keyword, num_topics=3, num_words=5):

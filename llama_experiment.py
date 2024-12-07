@@ -24,12 +24,12 @@ QUESTIONS = [
 ]
 
 print("Loading LLaMA model...")
-model_id = "meta-llama/Llama-3.2-1B"
+model_id = "meta-llama/Llama-3.1-8B"
 tokenizer = AutoTokenizer.from_pretrained(model_id)
 model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype="auto", device_map="auto")
 tokenizer.pad_token_id = tokenizer.eos_token_id
 
-data_2013, data_2023, _, _ = generated_events()
+data_2013, data_2023 = generated_events()
 context_2013 = " ".join(data_2013['Original_Text'].tolist()[:5])[:1000]
 context_2023 = " ".join(data_2023['Original_Text'].tolist()[:5])[:1000]
 

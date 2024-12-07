@@ -5,7 +5,7 @@ import random
 from utils.macros import generated_events, OUTPUT_DIR, KEYWORDS
 
 
-data_2013, data_2023, _, _ = generated_events()
+data_2013, data_2023 = generated_events()
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
