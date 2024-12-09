@@ -31,16 +31,18 @@ def extract_only_response(generated_text, year):
 def generate_responses(df, year, output_file):
     results = []
     print(f"Generating responses for {year}...")
-    for i, row in df.iterrows():  # Random sample of 10 rows
-        if i%100 ==0:
-            print(i)
+    for i in range(5, 50001, 5): 
+        if i % 500 == 0:
+            print(i) 
+        if i > len(df):
+            break
+        row = df.iloc[i - 1]
         if year == 2013:
             original_text = row["Text"]
             # preprocessed_text = row["Preprocessed_Text"]
         elif year == 2023:
             original_text = row["article"]
             # preprocessed_text = row["Preprocessed_Text"]
-        # Truncate text if too long¸¸¸¸¸
         truncated_text = summarize_text(original_text, summ_model, summ_tokenizer, max_length=150)
         # truncated_text = preprocess_text(preprocessed_text, max_tokens=1024)
         prompt = f"In {year}, {truncated_text}"
@@ -58,5 +60,5 @@ def generate_responses(df, year, output_file):
     pd.DataFrame(results).to_csv(output_path, index=False)
     print(f"Generated responses saved to {output_path}")
 
-generate_responses(df_2013, 2013, "generated_responses_2013.csv")
+# generate_responses(df_2013, 2013, "generated_responses_2013.csv")
 generate_responses(df_2023, 2023, "generated_responses_2023.csv")

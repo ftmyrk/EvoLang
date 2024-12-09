@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 from transformers import AutoTokenizer, AutoModelForCausalLM
-from utils.macros import GENERATED_DATA_DIR, download_dataset, generated_events
+from utils.macros import GENERATED_DATA_DIR, download_dataset, generated_events, OUTPUT_DIR
 from utils.text_preprocessing_utils import load_dataset
 from utils.text_generation_utils import generate_text, load_model_and_tokenizer
 import random
