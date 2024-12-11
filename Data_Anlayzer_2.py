@@ -30,7 +30,7 @@ def analyze_category_data(category, year):
     word_frequency_analysis(data, f"{category} {year}", os.path.join(word_frequency_dir, f"Word_Frequency_{category}_{year}.png"))
     sentiments = analyze_sentiment(data)
     visualize_sentiment(sentiments, f"{category} {year}", os.path.join(sentiment_dir, f"Sentiment_{category}_{year}.png"))
-    generate_word_association(data, os.path.join(word_association_dir, f"Word_Association_{category}_{year}.png"), year)
+    generate_word_association(data, f"{category} {year}", os.path.join(word_association_dir, f"Word_Association_{category}_{year}.png"), year)
     return data
 
 

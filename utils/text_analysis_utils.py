@@ -106,7 +106,7 @@ def compare_keyword_frequencies(events_2011, events_2021, keywords):
         difference = count_2021 - count_2011
         print(f"{keyword:<15} {count_2011:<12} {count_2021:<12} {difference:<10}")
 
-def generate_word_association(events, output_file, year):
+def generate_word_association(events, title, output_file, year):
     output_dir = os.path.dirname(output_file)
     os.makedirs(output_dir, exist_ok=True)
     text = clean_and_prepare_text(events, COLUMNN)
@@ -114,10 +114,25 @@ def generate_word_association(events, output_file, year):
     bigrams = zip(words, words[1:])
     graph = nx.Graph()
     graph.add_edges_from(bigrams)
+    word_counts = Counter(words)
+    node_sizes = [word_counts[word] * 10 for word in graph.nodes]
+
     pos = nx.spring_layout(graph, seed=42)
     plt.figure(figsize=(10, 8))
-    nx.draw(graph, pos, with_labels=False, node_size=500, alpha=0.7, edge_color='gray', node_color='skyblue')
-    plt.title(f"Word Association Network for {year}")
+    nx.draw(
+        graph,
+        pos,
+        with_labels=True,
+        labels={node: node for node in graph.nodes},
+        node_size=node_sizes,
+        font_size=8,
+        font_color="black",
+        node_color="skyblue",
+        edge_color="gray",
+        alpha=0.8,
+    )    
+    plt.title(title)
     plt.savefig(output_file)
+    plt.tight_layout()
     plt.close()
     print(f"Word Association Network saved to {output_file}")
