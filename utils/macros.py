@@ -9,9 +9,8 @@ DATA_DIR = os.path.join(BASE_DIR, 'Dataset')
 GENERATED_DATA_DIR = os.path.join(BASE_DIR, 'generated_data')
 OUTPUT_DIR = os.path.join(BASE_DIR, 'outputs')
 MODEL_DIR = os.path.join(BASE_DIR, 'word2vec_models')
-WORD_ASSOC_GRAPH_DIR = os.path.join(OUTPUT_DIR, "word_associated_graph")
 
-for directory in [DATA_DIR, GENERATED_DATA_DIR, OUTPUT_DIR, MODEL_DIR, WORD_ASSOC_GRAPH_DIR]:
+for directory in [DATA_DIR, GENERATED_DATA_DIR, OUTPUT_DIR, MODEL_DIR]:
     os.makedirs(directory, exist_ok=True)
 
 OLD_EVENT_LINK = "https://drive.google.com/uc?id=10nzlFF83IGoLDVlFILwtVBVW9TPaeL1m"

@@ -5,49 +5,50 @@ from utils.text_analysis_utils import (
     generate_wordcloud,
     analyze_sentiment,
     visualize_sentiment,
-    extract_keyword_sentences,
-    generate_heatmap,
+    compare_keyword_frequencies,
+    plot_keyword_frequency,
 )
-from utils.macros import GENERATED_DATA_DIR, OUTPUT_DIR, MODEL_DIR, tokenize_data, load_or_train_word2vec, KEYWORDS
+from utils.macros import OUTPUT_DIR, KEYWORDS
 
 print("Loading datasets...")
-comparison_2013 = pd.read_csv(os.path.join(GENERATED_DATA_DIR, "comparison_2013.csv"))
-comparison_2023 = pd.read_csv(os.path.join(GENERATED_DATA_DIR, "comparison_2023.csv"))
+print("Loading probability data...")
+probs_2011 = pd.read_csv(f"{OUTPUT_DIR}/probabilities_2011.csv")
+probs_2021 = pd.read_csv(f"{OUTPUT_DIR}/probabilities_2021.csv")
 
-# Detects outliers
-threshold = comparison_2013["Difference"].quantile(0.95)
-outliers_2013 = comparison_2013[comparison_2013["Difference"] > threshold]
-outliers_2023 = comparison_2023[comparison_2023["Difference"] > threshold]
+# Identify top differences
+threshold_2011 = probs_2011["Log_Probability"].quantile(0.95)
+threshold_2021 = probs_2021["Log_Probability"].quantile(0.95)
 
-outliers_2013.to_csv(os.path.join(OUTPUT_DIR, "outliers_2013.csv"), index=False)
-outliers_2023.to_csv(os.path.join(OUTPUT_DIR, "outliers_2023.csv"), index=False)
+outliers_2011 = probs_2011[probs_2011["Log_Probability"] > threshold_2011]
+outliers_2021 = probs_2021[probs_2021["Log_Probability"] > threshold_2021]
 
-# Generates Word Cloud
+outliers_2011.to_csv(f"{OUTPUT_DIR}/outliers_2011.csv", index=False)
+outliers_2021.to_csv(f"{OUTPUT_DIR}/outliers_2021.csv", index=False)
+
 print("Generating word clouds...")
-generate_wordcloud(outliers_2013, "Top 2013 Differences", os.path.join(OUTPUT_DIR, "wordcloud_top_2013.png"))
-generate_wordcloud(outliers_2023, "Top 2023 Differences", os.path.join(OUTPUT_DIR, "wordcloud_top_2023.png"))
+generate_wordcloud(outliers_2011, "Outliers 2011", f"{OUTPUT_DIR}/wordcloud_2011.png")
+generate_wordcloud(outliers_2021, "Outliers 2021", f"{OUTPUT_DIR}/wordcloud_2021.png")
 
-# Word Frequency Analysis
 print("Performing word frequency analysis...")
-word_frequency_analysis(outliers_2013, "Top 2013 Differences", os.path.join(OUTPUT_DIR, "word_frequency_2013.png"))
-word_frequency_analysis(outliers_2023, "Top 2023 Differences", os.path.join(OUTPUT_DIR, "word_frequency_2023.png"))
+word_frequency_analysis(outliers_2011, "Outliers 2011", f"{OUTPUT_DIR}/word_frequency_2011.png")
+word_frequency_analysis(outliers_2021, "Outliers 2021", f"{OUTPUT_DIR}/word_frequency_2021.png")
 
-# Sentiment Analysis
 print("Performing sentiment analysis...")
-sentiments_2013 = analyze_sentiment(outliers_2013)
-sentiments_2023 = analyze_sentiment(outliers_2023)
+sentiments_2011 = analyze_sentiment(outliers_2011)
+sentiments_2021 = analyze_sentiment(outliers_2021)
 
-# Visualize Sentiment
 print("Visualizing sentiment...")
-visualize_sentiment(sentiments_2013, "Top 2013 Differences Sentiment", os.path.join(OUTPUT_DIR, "sentiment_2013.png"))
-visualize_sentiment(sentiments_2023, "Top 2023 Differences Sentiment", os.path.join(OUTPUT_DIR, "sentiment_2023.png"))
+visualize_sentiment(sentiments_2011, "Outliers 2011 Sentiment", f"{OUTPUT_DIR}/sentiment_2011.png")
+visualize_sentiment(sentiments_2021, "Outliers 2021 Sentiment", f"{OUTPUT_DIR}/sentiment_2021.png")
 
-# Word2Vec analysis
-tokens_2013 = [text.split() for text in outliers_2013["Text"].tolist()]
-tokens_2023 = [text.split() for text in outliers_2023["Text"].tolist()]
+print("Comparing keyword frequencies...")
+compare_keyword_frequencies(outliers_2011, outliers_2021, KEYWORDS)
+plot_keyword_frequency(KEYWORDS, outliers_2011, outliers_2021, f"{OUTPUT_DIR}/keyword_frequencies_comparison.png")
 
-model_2013 = load_or_train_word2vec(tokens_2013, 2013)
-model_2023 = load_or_train_word2vec(tokens_2023, 2023)
+print("Data analysis complete. Outputs saved.")
 
-# Heatmap 
-generate_heatmap(outliers_2013["Text"].tolist(), outliers_2023["Text"].tolist(), os.path.join(OUTPUT_DIR, "heatmap_outliers.png"))
+# tokens_2013 = [text.split() for text in outliers_2013["Text"].tolist()]
+# tokens_2023 = [text.split() for text in outliers_2023["Text"].tolist()]
+
+# model_2013 = load_or_train_word2vec(tokens_2013, 2013)
+# model_2023 = load_or_train_word2vec(tokens_2023, 2023)

@@ -11,12 +11,8 @@ def load_model_and_tokenizer(model_id):
     model.to(torch.device("cuda" if torch.cuda.is_available() else "cpu"))
     return model, tokenizer
 
-# Generate text
 def generate_text(prompt, model, tokenizer, max_length=200):
-    """
-    Generates text based on the given prompt.
-    """
-    inputs = tokenizer(prompt, return_tensors="pt", truncation=True, max_length=512).to(model.device)
+    inputs = tokenizer(prompt, return_tensors="pt", truncation=True, max_length=200).to(model.device)
     outputs = model.generate(
         inputs['input_ids'],
         max_new_tokens=max_length,
@@ -26,38 +22,31 @@ def generate_text(prompt, model, tokenizer, max_length=200):
     )
     return tokenizer.decode(outputs[0], skip_special_tokens=True)
 
-# Summarization pipeline
-def load_summarization_model():
-    """
-    Load the summarization model and tokenizer.
-    """
-    model_id = "facebook/bart-large-cnn"
-    tokenizer = AutoTokenizer.from_pretrained(model_id)
-    model = AutoModelForSeq2SeqLM.from_pretrained(model_id)
-    model.to(torch.device("cuda" if torch.cuda.is_available() else "cpu"))
-    return model, tokenizer
+def extract_key_response(generated_response, prompt):
+    return generated_response.replace(prompt, "")
+# # Summarization pipeline
+# def load_summarization_model():
+#     model_id = "facebook/bart-large-cnn"
+#     tokenizer = AutoTokenizer.from_pretrained(model_id)
+#     model = AutoModelForSeq2SeqLM.from_pretrained(model_id)
+#     model.to(torch.device("cuda" if torch.cuda.is_available() else "cpu"))
+#     return model, tokenizer
 
-def summarize_text(text, model, tokenizer, max_length=150):
-    """
-    Summarizes the input text using the summarization model.
-    """
-    text = text[:1024]  # Ensure text isn't too long for summarization
-    inputs = tokenizer("summarize: " + text, return_tensors="pt", truncation=True, max_length=150).to(model.device)
-    summary_ids = model.generate(
-        inputs['input_ids'], 
-        max_length=max_length, 
-        min_length=30, 
-        length_penalty=2.0, 
-        num_beams=4
-    )
-    return tokenizer.decode(summary_ids[0], skip_special_tokens=True)
+# def summarize_text(text, model, tokenizer, max_length=150):
+#     text = text[:1024]  # Ensure text isn't too long for summarization
+#     inputs = tokenizer("summarize: " + text, return_tensors="pt", truncation=True, max_length=150).to(model.device)
+#     summary_ids = model.generate(
+#         inputs['input_ids'], 
+#         max_length=max_length, 
+#         min_length=30, 
+#         length_penalty=2.0, 
+#         num_beams=4
+#     )
+#     return tokenizer.decode(summary_ids[0], skip_special_tokens=True)
 
-# Save results to CSV
 def save_results_to_csv(results, output_file):
-    """
-    Save the results to a CSV file.
-    """
     with open(output_file, mode='w', newline='', encoding='utf-8') as file:
         writer = csv.DictWriter(file, fieldnames=["Original_Text", "Generated_Full_Response", "Generated_Only_Response"])
         writer.writeheader()
         writer.writerows(results)
+        
