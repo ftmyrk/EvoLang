@@ -19,6 +19,9 @@ NEW_EVENT_LINK = "https://drive.google.com/uc?id=10sLum2gntV-notnNUVsOMOIIqvNvtN
 OLD_EVENT_FILE = os.path.join(DATA_DIR, "2013_year.csv")
 NEW_EVENT_FILE = os.path.join(DATA_DIR, "2023_year.csv")
 
+GENERATED_DATA_DIR_2013 = "/home/otamy001/EvoLang/generated_data/generated_responses_2013.csv"
+GENERATED_DATA_DIR_2023 = "/home/otamy001/EvoLang/generated_data/generated_responses_2023.csv"
+
 KEYWORDS = ['economy', 'policy', 'shares', 'technology', 'market']
 
 def download_with_progress(url, output_file):
@@ -43,7 +46,12 @@ def download_dataset():
 
     return OLD_EVENT_FILE, NEW_EVENT_FILE
 
-
+def load_dataset_event_csv():
+    pd1 = pd.read_csv(OLD_EVENT_FILE)
+    pd2 = pd.read_csv(NEW_EVENT_FILE)
+    event_2013 = pd.DataFrame(pd1, columns=["Text"]) 
+    event_2023 = pd.DataFrame(pd2, columns=["article"]) 
+    return event_2013, event_2023
 # Functions to load datasets
 def generated_events():
     old_data_path = "/home/otamy001/EvoLang/generated_data/generated_responses_2013.csv"

@@ -1,5 +1,3 @@
-# text_analysis_utils.py
-
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.feature_extraction.text import CountVectorizer
@@ -11,22 +9,13 @@ from wordcloud import WordCloud
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 from nltk import word_tokenize
-from itertools import combinations
 from collections import Counter
-import nltk
-import os
-from networkx import Graph
 import networkx as nx
+import os
 
-COLUMNN = "Extracted_Key_Response"
-
-nltk.download("stopwords")
-nltk.download("punkt")
-nltk.download("wordnet")
-nltk.download("averaged_perceptron_tagger")
-
-lemmatizer = WordNetLemmatizer()
+COLUMNN = "Extracted_Key_Response"  
 STOPWORDS = set(stopwords.words("english"))
+lemmatizer = WordNetLemmatizer()
 
 def preprocess_text(text):
     words = word_tokenize(text)
@@ -52,7 +41,7 @@ def word_frequency_analysis(events, title, output_file):
     plt.savefig(output_file)
     plt.close()
     print(f"Word frequency plot for {title} saved to {output_file}")
-    
+
 # Word Cloud
 def generate_wordcloud(events, output_file, year):
     all_text = clean_and_prepare_text(events, COLUMNN)
@@ -70,7 +59,7 @@ def analyze_sentiment(events):
     sentiment_analyzer = pipeline("sentiment-analysis", model="distilbert-base-uncased-finetuned-sst-2-english", device=0 if torch.cuda.is_available() else -1)
     sentiments = []
 
-    for event in events["Generated_Full_Response"].astype(str):
+    for event in events[COLUMNN].astype(str):
         result = sentiment_analyzer(event[:512])  # Truncate text to the first 512 characters
         sentiments.append({"text": event, "label": result[0]["label"]})
     return sentiments
@@ -78,8 +67,6 @@ def analyze_sentiment(events):
 # Visualize Sentiment
 def visualize_sentiment(sentiments, title, output_file):
     df = pd.DataFrame(sentiments)
-    if "label" not in df.columns:
-        raise ValueError("The DataFrame does not contain a 'label' column for sentiment visualization.")
     sns.countplot(x="label", data=df, palette="coolwarm")
     plt.title(f"Sentiment Distribution in {title}")
     plt.xlabel("Sentiment")
@@ -89,36 +76,86 @@ def visualize_sentiment(sentiments, title, output_file):
     print(f"Sentiment visualization for {title} saved to {output_file}")
 
 # Keyword Frequency Comparison
-def compare_keyword_frequencies(events_2011, events_2021, keywords):
+def compare_keyword_frequencies(events_2013, events_2023, keywords):
     def count_keywords(events, keywords):
         all_text = " ".join(events[COLUMNN].astype(str))
         word_counts = Counter(all_text.split())
         return {keyword: word_counts[keyword] for keyword in keywords if keyword in word_counts}
 
-    keyword_counts_2011 = count_keywords(events_2011, keywords)
-    keyword_counts_2021 = count_keywords(events_2021, keywords)
+    keyword_counts_2013 = count_keywords(events_2013, keywords)
+    keyword_counts_2023 = count_keywords(events_2023, keywords)
 
-    print(f"{'Keyword':<15} {'2011 Count':<12} {'2021 Count':<12} {'Difference':<10}")
+    print(f"{'Keyword':<15} {'2013 Count':<12} {'2023 Count':<12} {'Difference':<10}")
     print("-" * 45)
     for keyword in keywords:
-        count_2011 = keyword_counts_2011.get(keyword, 0)
-        count_2021 = keyword_counts_2021.get(keyword, 0)
-        difference = count_2021 - count_2011
-        print(f"{keyword:<15} {count_2011:<12} {count_2021:<12} {difference:<10}")
+        count_2013 = keyword_counts_2013.get(keyword, 0)
+        count_2023 = keyword_counts_2023.get(keyword, 0)
+        difference = count_2023 - count_2013
+        print(f"{keyword:<15} {count_2013:<12} {count_2023:<12} {difference:<10}")
+        
+def plot_keyword_frequency(keywords, events_2013, events_2023, output_file):
+    def count_keywords(events, keywords):
+        all_text = " ".join(events[COLUMNN].astype(str))
+        word_counts = Counter(all_text.split())
+        return {keyword: word_counts[keyword] for keyword in keywords if keyword in word_counts}
 
-def generate_word_association(events, title, output_file, year):
+    keyword_counts_2013 = count_keywords(events_2013, keywords)
+    keyword_counts_2023 = count_keywords(events_2023, keywords)
+
+    data = []
+    for keyword in keywords:
+        count_2013 = keyword_counts_2013.get(keyword, 0)
+        count_2023 = keyword_counts_2023.get(keyword, 0)
+        data.append({"Keyword": keyword, "Year": "2013", "Count": count_2013})
+        data.append({"Keyword": keyword, "Year": "2023", "Count": count_2023})
+
+    df = pd.DataFrame(data)
+
+    plt.figure(figsize=(12, 6))
+    sns.barplot(x="Keyword", y="Count", hue="Year", data=df, palette="pastel")
+    plt.title("Keyword Frequency Comparison (2013 vs 2023)")
+    plt.xlabel("Keywords")
+    plt.ylabel("Frequency")
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+    plt.savefig(output_file)
+    plt.close()
+    print(f"Keyword frequency comparison saved to {output_file}")
+
+# Word Association Network
+def generate_word_association(events, title, output_file, year, top_n=50, edge_threshold=2):
+    """
+    Generate a word association network graph with filtered nodes and edges.
+
+    :param events: DataFrame containing text data.
+    :param title: Title of the graph.
+    :param output_file: Path to save the graph image.
+    :param year: The year for the data.
+    :param top_n: Number of most frequent words to include in the graph.
+    :param edge_threshold: Minimum frequency for bigrams to be included.
+    """
     output_dir = os.path.dirname(output_file)
     os.makedirs(output_dir, exist_ok=True)
     text = clean_and_prepare_text(events, COLUMNN)
     words = text.split()
-    bigrams = zip(words, words[1:])
-    graph = nx.Graph()
-    graph.add_edges_from(bigrams)
+
+    # Count word frequencies
     word_counts = Counter(words)
+    most_common_words = set([word for word, _ in word_counts.most_common(top_n)])
+
+    # Create bigrams and filter by frequency
+    bigrams = [(w1, w2) for w1, w2 in zip(words, words[1:]) if w1 in most_common_words and w2 in most_common_words]
+    bigram_counts = Counter(bigrams)
+    filtered_bigrams = [(w1, w2) for (w1, w2), count in bigram_counts.items() if count >= edge_threshold]
+
+    # Create graph
+    graph = nx.Graph()
+    graph.add_edges_from(filtered_bigrams)
     node_sizes = [word_counts[word] * 10 for word in graph.nodes]
 
+    # Draw graph
     pos = nx.spring_layout(graph, seed=42)
-    plt.figure(figsize=(10, 8))
+    plt.figure(figsize=(12, 8))
     nx.draw(
         graph,
         pos,
@@ -130,9 +167,9 @@ def generate_word_association(events, title, output_file, year):
         node_color="skyblue",
         edge_color="gray",
         alpha=0.8,
-    )    
-    plt.title(title)
-    plt.savefig(output_file)
+    )
+    plt.title(f"{title} - Word Association Network")
     plt.tight_layout()
+    plt.savefig(output_file)
     plt.close()
     print(f"Word Association Network saved to {output_file}")
