@@ -56,12 +56,22 @@ def generate_wordcloud(events, output_file, year):
 
 # Sentiment Analysis
 def analyze_sentiment(events):
-    sentiment_analyzer = pipeline("sentiment-analysis", model="distilbert-base-uncased-finetuned-sst-2-english", device=0 if torch.cuda.is_available() else -1)
+    sentiment_analyzer = pipeline(
+        "sentiment-analysis",
+        model="distilbert-base-uncased-finetuned-sst-2-english",
+        device=0 if torch.cuda.is_available() else -1
+    )
     sentiments = []
 
-    for event in events[COLUMNN].astype(str):
-        result = sentiment_analyzer(event[:512])  # Truncate text to the first 512 characters
-        sentiments.append({"text": event, "label": result[0]["label"]})
+    for event in events["Generated_Full_Response"].astype(str):
+        # Truncate text to the first 512 characters
+        truncated_event = event[:512]
+        try:
+            result = sentiment_analyzer(truncated_event)  # Analyze sentiment
+            sentiments.append({"text": truncated_event, "label": result[0]["label"], "score": result[0]["score"]})
+        except Exception as e:
+            print(f"Error analyzing sentiment for text: {truncated_event[:50]}... | Error: {e}")
+            sentiments.append({"text": truncated_event, "label": "ERROR", "score": 0.0})
     return sentiments
 
 # Visualize Sentiment
@@ -124,16 +134,6 @@ def plot_keyword_frequency(keywords, events_2013, events_2023, output_file):
 
 # Word Association Network
 def generate_word_association(events, title, output_file, year, top_n=50, edge_threshold=2):
-    """
-    Generate a word association network graph with filtered nodes and edges.
-
-    :param events: DataFrame containing text data.
-    :param title: Title of the graph.
-    :param output_file: Path to save the graph image.
-    :param year: The year for the data.
-    :param top_n: Number of most frequent words to include in the graph.
-    :param edge_threshold: Minimum frequency for bigrams to be included.
-    """
     output_dir = os.path.dirname(output_file)
     os.makedirs(output_dir, exist_ok=True)
     text = clean_and_prepare_text(events, COLUMNN)

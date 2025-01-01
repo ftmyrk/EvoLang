@@ -4,6 +4,7 @@ import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from utils.text_generation_utils import generate_text, extract_key_response, assign_category, load_summarization_model, summarize_text, generate_random_date
 from utils.macros import load_dataset_event_csv
+from utils.text_preprocessing_utils import preprocess_text
 import random
 from multiprocessing import Process, set_start_method
 
@@ -61,11 +62,11 @@ def generate_responses(input_data, year, device_id, sample_size=5000):
                 min_length_word = 75
             elif min_length_word < 30:
                 min_length_word = 30
-            
-            summarized_text = summarize_text(text, summarization_model, summarization_tokenizer, max_length=200, min_length=int(min_length_word))
+            text = preprocess_text(text ,1024)
+            summarized_text = summarize_text(text, summarization_model, summarization_tokenizer, max_length=250, min_length=int(min_length_word))
             prompt = f"On {prompt_date}, {summarized_text}"
 
-            generated_full_response = generate_text(prompt, model, tokenizer, max_length=200)
+            generated_full_response = generate_text(prompt, model, tokenizer, max_length=300)
             extracted_key_response = extract_key_response(generated_full_response, prompt)
             category = assign_category(summarized_text)
 
@@ -90,7 +91,7 @@ def generate_responses(input_data, year, device_id, sample_size=5000):
 
     return pd.DataFrame(results)
 
-def process_on_device(input_data, year, device_id, output_file, sample_size=5000):
+def process_on_device(input_data, year, device_id, output_file, sample_size=10000):
     results_df = generate_responses(input_data, year, device_id, sample_size)
     results_df.to_csv(output_file, index=False)
     print(f"Responses for {year} saved to {output_file}")

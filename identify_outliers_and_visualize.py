@@ -75,17 +75,14 @@ def visualize_log_probabilities(data, year, output_file):
     plt.close()
     print(f"Log probability visualization saved to {output_file}")
 
-# Visualize Word Clouds
 print("Generating Word Clouds...")
 generate_wordcloud(outliers_2013, f"{OUTPUT_DIR}/wordcloud_outliers_2013.png", "Outliers 2013")
 generate_wordcloud(outliers_2023, f"{OUTPUT_DIR}/wordcloud_outliers_2023.png", "Outliers 2023")
 
-# KL Divergence
 print("Computing KL Divergence...")
 kl_divergence = compute_kl_divergence(outliers_2013, outliers_2023)
 print(f"KL Divergence between 2013 and 2023: {kl_divergence}")
 
-# Visualize Log Probabilities
 print("Visualizing Log Probabilities...")
 visualize_log_probabilities(generated_2013, 2013, f"{OUTPUT_DIR}/log_probs_2013.png")
 visualize_log_probabilities(generated_2023, 2023, f"{OUTPUT_DIR}/log_probs_2023.png")
