@@ -1,0 +1,18 @@
+{
+    "Outliers 2013": 0,
+    "Outliers 2023": 0,
+    "Average Sentiment Score 2013": {
+        "formal": 0.00510073960724305,
+        "informal": 0.06235654169854629,
+        "positive": 0.13453200714103544,
+        "negative": 0.02346340219331803,
+        "Year": 2013.0
+    },
+    "Average Sentiment Score 2023": {
+        "formal": 0.023511174266890582,
+        "informal": 0.1667743185634931,
+        "positive": 0.13370365585841623,
+        "negative": 0.02066916419067304,
+        "Year": 2023.0
+    }
+}
