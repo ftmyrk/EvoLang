@@ -1,11 +1,11 @@
 
-Categories     2013 Count   2023 Count   Difference
+|Categories |    2013 Count  | 2023 Count |  Difference |
 ---------------------------------------------
-economy         1255         328          -927      
-policy          977          238          -739      
-health          5608         933          -4675     
-technology      3687         1536         -2151     
-sport           6240         116          -6124     
+|economy   |      1255   |      328      |    -927      |
+|policy     |     977     |     238      |    -739      |
+|health      |    5608    |     933     |    -4675     |
+|technology   |   3687    |     1536      |   -2151     |
+|sport         |  6240   |      116      |    -6124     |
 
 
 ### Examples of the Generated Response and the Probability
